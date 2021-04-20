@@ -114,8 +114,6 @@ function getAverageGoals(data) {
 console.log(getAverageGoals(getFinals(fifaData)));
 
 
-
-
 /// 🥅 STRETCH 🥅 ///
 
 /* 💪💪💪💪💪 Stretch 1: 💪💪💪💪💪
@@ -124,22 +122,60 @@ Create a function called `getCountryWins` that takes the parameters `data` and `
 Hint: Investigate your data to find "team initials"!
 Hint: use `.reduce` */
 
-function getCountryWins(/* code here */) {
+function determineWinnerInitials(game) {
+    const homeScore = game['Home Team Goals'];
+    const awayScore = game['Away Team Goals'];
 
-    /* code here */
-
+    if (homeScore !== awayScore)
+        return homeScore > awayScore ? game['Home Team Initials'] : game['Away Team Initials'];
+    else {
+        const winner = game['Win conditions'].split(' win ')[0];
+        return game['Home Team Name'] === winner ? game['Home Team Initials'] : game['Away Team Initials'];
+    }
 }
+/** @param {fifaData} data */
+function getCountryWins(data, country) {
+    return data.filter(g => g.Stage === "Final" && determineWinnerInitials(g) === country).length;
+}
+console.log(getCountryWins(fifaData, 'BRA'));
 
 
 
 /* 💪💪💪💪💪 Stretch 2: 💪💪💪💪💪
 Write a function called getGoals() that accepts a parameter `data` and returns the team with the most goals score per appearance (average goals for) in the World Cup finals */
+/** @param {fifaData} data */
+function getGoals(data) {
+    // extract all the scores from the game data
+    const appearanceScores = [];
+    data.forEach(g => {
+        appearanceScores.push({ team: g['Home Team Name'], score: g['Home Team Goals'] });
+        appearanceScores.push({ team: g['Away Team Name'], score: g['Away Team Goals'] });
+    });
 
-function getGoals(/* code here */) {
+    // total each team's scores and count the number of appearances
+    const teamTotals = {};
+    appearanceScores.forEach(as => {
+        if (teamTotals.hasOwnProperty(as.team)) {
+            teamTotals[as.team].total += as.score;
+            teamTotals[as.team].games += 1;
+        }
+        else {
+            teamTotals[as.team] = { total: as.score, games: 1 };
+        }
+    });
 
-    /* code here */
+    // iterate through each team, calcuating the average and tracking the max
+    let highestAvgTeam = ['', 0];
+    for (const key in teamTotals) {
+        const avg = teamTotals[key].total / teamTotals[key].games;
+        if (avg > highestAvgTeam[1])
+            highestAvgTeam = [key, avg];
+    }
 
+    console.log(`The team with the highest average score per world cup game is ${highestAvgTeam[0]} with an average score of ${highestAvgTeam[1]}`)
+    return highestAvgTeam[0];
 }
+console.log(getGoals(fifaData));
 
 
 /* 💪💪💪💪💪 Stretch 3: 💪💪💪💪💪
@@ -154,13 +190,41 @@ function badDefense(/* code here */) {
 
 /* If you still have time, use the space below to work on any stretch goals of your chosing as listed in the README file. */
 
+/** @param {fifaData} data */
+function getCountryAppearances(data, country) {
+    const games = data.filter(g => g['Home Team Initials'] === country || g['Away Team Initials'] === country);
+    const years = games.map(g => g.Year);
+    return new Set(years).size;
+}
+console.log(getCountryAppearances(fifaData, 'FRA'));
+
+/** @param {fifaData} data */
+function totalGoals(data, country) {
+    let total = 0;
+    data.forEach(g => {
+        if (g['Home Team Initials'] === country)
+            total += g['Home Team Goals'];
+        else if (g['Away Team Initials'] === country)
+            total += g['Away Team Goals'];
+    })
+    return total;
+}
+console.log(totalGoals(fifaData, 'FRA'));
+
+//Not sure WHICH country names you want, so I'll just make a heading for each world cup final
+/** @param {fifaData} data */
+function finalsHeading(data)
+{
+    return data.filter(g=> g.Stage === 'Final').map(g => `<h1>${g.Year}: ${g['Home Team Name']} vs ${g['Away Team Name']}</h1>\n`);
+}
+console.log(finalsHeading(fifaData));
 
 /* 🛑🛑🛑🛑🛑 Please do not modify anything below this line 🛑🛑🛑🛑🛑 */
-function foo(){
+function foo() {
     console.log('its working');
     return 'bar';
 }
-export default{
+export default {
     foo,
     getFinals,
     getYears,
