@@ -3,13 +3,13 @@
 ## Advanced JavaScript
 
 ## Array Methods and Callbacks
-*Note*: Please add the LIVE server extension to your visual studio code and use it for this project. https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer - you will not be able to view this data in the browser or see your console logs without it. 
+*Note*: Please add the LIVE server extension to your visual studio code and use it for this project. https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer - you will not be able to view this data in the browser or see your console logs without it.
 
 ## Objectives
 
 - Array Methods - demonstrate ability to use `.forEach()` `.map()` `.reduce()` `.filter()` and describe their use cases
 - Callbacks - demonstrate the proper use a of a callback function by passing a function to another function as a parameter
-  
+
 ## Introduction
 
 In this challenge, you will work with a data set summarizing every World Cup game from 1930 to 2014. As web developers, you will often work with JSON data to interact with servers, summarize data, get images to your page, and more. It is crucial that you cultivate a thorough understanding of data structures and methods early in your career.
@@ -68,10 +68,10 @@ After you have completed the requirements, create a new file called `stretch.js`
 
 See if you can complete one or more of the following challenges:
 
-- [ ] Create a function that takes country initials as a parameter and returns their total number of World Cup appearances.
-- [ ] Account for ties in your 'finals' data set
-- [ ] Create a function that takes country initials as a parameter and determines how many goals that country has scored in World Cup games since 1930.
-- [ ] Use `.map()` to format country names into `<h1>` HTML headers.
+- [x] Create a function that takes country initials as a parameter and returns their total number of World Cup appearances.
+- [x] Account for ties in your 'finals' data set
+- [x] Create a function that takes country initials as a parameter and determines how many goals that country has scored in World Cup games since 1930.
+- [x] Use `.map()` to format country names into `<h1>` HTML headers.
 
 ## FAQ
 
